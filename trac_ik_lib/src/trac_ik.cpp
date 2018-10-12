@@ -30,13 +30,16 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <trac_ik/trac_ik.hpp>
+#include <boost/math/tools/precision.hpp>
 #include <boost/date_time.hpp>
 #include <boost/make_shared.hpp>
 #include <Eigen/Geometry>
-#include <ros/ros.h>
+#include <base-logging/Logging.hpp>
 #include <limits>
 #include <kdl_parser/kdl_parser.hpp>
-#include <urdf/model.h>
+#include <urdf_parser/urdf_parser.h>
+#include <urdf_model/model.h>
+#include <urdf_model/types.h>
 
 namespace TRAC_IK {
 
@@ -48,34 +51,30 @@ namespace TRAC_IK {
     work(io_service)
   {
 
-    ros::NodeHandle node_handle("~");
 
-    urdf::Model robot_model;
-    std::string xml_string;
 
+    std::ifstream file(URDF_param.c_str());
+    
+    if (!file.is_open())
+    {  
+      LOG_FATAL("cannot open the urdf file"); 
+      
+    }
+    
+    std::string xml_string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     std::string urdf_xml,full_urdf_xml;
-    node_handle.param("urdf_xml",urdf_xml,URDF_param);
-    node_handle.searchParam(urdf_xml,full_urdf_xml);
+    
+    urdf::ModelInterfaceSharedPtr robot_model = urdf::parseURDF(xml_string);
 
-    ROS_DEBUG_NAMED("trac_ik", "Reading xml file from parameter server");
-    if (!node_handle.getParam(full_urdf_xml, xml_string))
-      {
-        ROS_FATAL_NAMED("trac_ik", "Could not load the xml from parameter server: %s", urdf_xml.c_str());
-        return;
-      }
-
-    node_handle.param(full_urdf_xml,xml_string,std::string());
-    robot_model.initString(xml_string);
-
-    ROS_DEBUG_STREAM_NAMED("trac_ik", "Reading joints and links from URDF");
+    LOG_DEBUG("trac_ik: Reading joints and links from URDF");
 
     KDL::Tree tree;
 
-    if (!kdl_parser::treeFromUrdfModel(robot_model, tree))
-      ROS_FATAL("Failed to extract kdl tree from xml robot description");
+    if (!kdl_parser::treeFromUrdfModel(*robot_model, tree))
+      LOG_FATAL("Failed to extract kdl tree from xml robot description");
 
     if(!tree.getChain(base_link, tip_link, chain))
-      ROS_FATAL("Couldn't find chain %s to %s",base_link.c_str(),tip_link.c_str());
+      LOG_FATAL("Couldn't find chain %s to %s",base_link.c_str(),tip_link.c_str());
 
     std::vector<KDL::Segment> chain_segs = chain.segments;
 
@@ -88,7 +87,7 @@ namespace TRAC_IK {
 
     uint joint_num=0;
     for(unsigned int i = 0; i < chain_segs.size(); ++i) {
-      joint = robot_model.getJoint(chain_segs[i].getJoint().getName());
+      joint = robot_model->getJoint(chain_segs[i].getJoint().getName());
       if (joint->type != urdf::Joint::UNKNOWN && joint->type != urdf::Joint::FIXED) {
         joint_num++;
         float lower, upper;
@@ -114,7 +113,7 @@ namespace TRAC_IK {
           lb(joint_num-1)=std::numeric_limits<float>::lowest();
           ub(joint_num-1)=std::numeric_limits<float>::max();
         }
-        ROS_DEBUG_STREAM_NAMED("trac_ik", "IK Using joint "<<joint->name<<" "<<lb(joint_num-1)<<" "<<ub(joint_num-1));
+        LOG_DEBUG("trac_ik: IK Using joint %s  with lower limit %d and upper limit %d", joint->name, lb(joint_num-1), ub(joint_num-1));
       }
     }
 
@@ -389,7 +388,7 @@ namespace TRAC_IK {
   int TRAC_IK::CartToJnt(const KDL::JntArray &q_init, const KDL::Frame &p_in, KDL::JntArray &q_out, const KDL::Twist& _bounds) {
 
     if (!initialized) {
-      ROS_ERROR("TRAC-IK was not properly initialized with a valid chain or limits.  IK cannot proceed");
+      LOG_ERROR("TRAC-IK was not properly initialized with a valid chain or limits.  IK cannot proceed");
       return -1;
     }
 

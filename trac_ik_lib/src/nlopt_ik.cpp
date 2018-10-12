@@ -29,9 +29,10 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 ********************************************************************************/
 
 #include <trac_ik/nlopt_ik.hpp>
+#include <boost/math/tools/precision.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <ros/ros.h>
+#include <base-logging/Logging.hpp>
 #include <limits>
 #include <boost/date_time.hpp>
 #include <trac_ik/dual_quaternion.h>
@@ -191,7 +192,7 @@ namespace NLOPT_IK {
     reset();
 
     if (chain.getNrOfJoints() < 2) {
-      ROS_WARN_THROTTLE(1.0,"NLOpt_IK can only be run for chains of length 2 or more");
+      LOG_WARN("NLOpt_IK can only be run for chains of length 2 or more");
       return;
     }
     opt = nlopt::opt(nlopt::LD_SLSQP, _chain.getNrOfJoints());
@@ -279,10 +280,10 @@ namespace NLOPT_IK {
     int rc = fksolver.JntToCart(q,currentPose);
 
     if (rc < 0)
-      ROS_FATAL_STREAM("KDL FKSolver is failing: "<<q.data);
+      LOG_FATAL("KDL FKSolver is failing ");
 
     if (std::isnan(currentPose.p.x())) {
-      ROS_ERROR("NaNs from NLOpt!!");
+      LOG_ERROR("NaNs from NLOpt!!");
       error[0] = std::numeric_limits<float>::max();
       progress = -1;
       return;
@@ -326,11 +327,11 @@ namespace NLOPT_IK {
     int rc = fksolver.JntToCart(q,currentPose);
 
     if (rc < 0)
-      ROS_FATAL_STREAM("KDL FKSolver is failing: "<<q.data);
+      LOG_FATAL("KDL FKSolver is failing ");
 
 
     if (std::isnan(currentPose.p.x())) {
-      ROS_ERROR("NaNs from NLOpt!!");
+      LOG_ERROR("NaNs from NLOpt!!");
       error[0] = std::numeric_limits<float>::max();
       progress = -1;
       return;
@@ -375,11 +376,11 @@ namespace NLOPT_IK {
     int rc = fksolver.JntToCart(q,currentPose);
 
     if (rc < 0)
-      ROS_FATAL_STREAM("KDL FKSolver is failing: "<<q.data);
+      LOG_FATAL("KDL FKSolver is failing ");
 
 
     if (std::isnan(currentPose.p.x())) {
-      ROS_ERROR("NaNs from NLOpt!!");
+      LOG_ERROR("NaNs from NLOpt!!");
       error[0] = std::numeric_limits<float>::max();
       progress = -1;
       return;
@@ -427,12 +428,12 @@ namespace NLOPT_IK {
     q_out=q_init;
 
     if (chain.getNrOfJoints() < 2) {
-      ROS_ERROR_THROTTLE(1.0,"NLOpt_IK can only be run for chains of length 2 or more");
+      LOG_ERROR("NLOpt_IK can only be run for chains of length 2 or more");
       return -3;
     }
 
     if (q_init.data.size() != types.size()) {
-      ROS_ERROR_THROTTLE(1.0,"IK seeded with wrong number of joints.  Expected %d but got %d",(int)types.size(), (int)q_init.data.size());
+      LOG_ERROR("IK seeded with wrong number of joints.  Expected %d but got %d",(int)types.size(), (int)q_init.data.size());
       return -3;
     }
 

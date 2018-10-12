@@ -18,10 +18,9 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>trac_ik_examples</run_depend>
-  <run_depend>trac_ik_kinematics_plugin</run_depend>
+
   <run_depend>trac_ik_lib</run_depend>
-  <run_depend>trac_ik_python</run_depend>
+
 
   <export>
     <metapackage/>

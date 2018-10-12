@@ -29,8 +29,9 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 ********************************************************************************/
 
 #include <trac_ik/kdl_tl.hpp>
+#include <boost/math/tools/precision.hpp>
 #include <boost/date_time.hpp>
-#include <ros/ros.h>
+#include <base-logging/Logging.hpp>
 #include <limits>
 
 namespace KDL
@@ -150,7 +151,7 @@ namespace KDL
       
       Subtract(q_out,q_curr,q_out);
       
-      if (q_out.data.isZero(boost::math::tools::epsilon<float>())) {
+      if (q_out.data.isZero(boost::math::tools::epsilon<double>())) {
         if (rr) {
           for (unsigned int j=0; j<q_out.data.size(); j++) 
             if (types[j]==KDL::BasicJointType::Continuous)
