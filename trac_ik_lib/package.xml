@@ -16,12 +16,4 @@
   <maintainer email="pbeeson@traclabs.com">Patrick Beeson</maintainer>
 
   <license>BSD</license>
-
-  <build_depend>boost</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>eigen</build_depend>
-  <build_depend>kdl_parser</build_depend>
-  <build_depend>libnlopt-dev</build_depend>
-  <build_depend>pkg-config</build_depend>
-  <build_depend>urdf</build_depend>
 </package>
