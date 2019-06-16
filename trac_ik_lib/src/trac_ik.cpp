@@ -43,8 +43,9 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace TRAC_IK {
 
-  TRAC_IK::TRAC_IK(const std::string& base_link, const std::string& tip_link, const std::string& URDF_param, double _maxtime, double _eps, SolveType _type ) :
+    TRAC_IK::TRAC_IK(const std::string& base_link, const std::string& tip_link, const KDL::JntArray& _qerr_wt, const std::string& URDF_param, double _maxtime, double _eps, SolveType _type ) :
     initialized(false),
+    qerr_wt(_qerr_wt),
     eps(_eps),
     maxtime(_maxtime),
     solvetype(_type),
@@ -121,11 +122,12 @@ namespace TRAC_IK {
   }
 
 
-  TRAC_IK::TRAC_IK(const KDL::Chain& _chain, const KDL::JntArray& _q_min, const KDL::JntArray& _q_max, double _maxtime, double _eps, SolveType _type):
+  TRAC_IK::TRAC_IK(const KDL::Chain& _chain, const KDL::JntArray& _q_min, const KDL::JntArray& _q_max, const KDL::JntArray& _qerr_wt, double _maxtime, double _eps, SolveType _type):
     initialized(false),
     chain(_chain),
     lb(_q_min),
     ub(_q_max),
+    qerr_wt(_qerr_wt),
     eps(_eps),
     maxtime(_maxtime),
     solvetype(_type),
@@ -261,7 +263,7 @@ namespace TRAC_IK {
             err = penalty*TRAC_IK::ManipValue2(q_out);
             break;
           default:
-            err = TRAC_IK::JointErr(q_init,q_out);
+            err = TRAC_IK::JointErr(q_init,q_out, qerr_wt);
             break;
           }
           mtx_.lock();

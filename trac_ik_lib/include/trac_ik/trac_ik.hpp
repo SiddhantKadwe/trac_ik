@@ -46,9 +46,9 @@ namespace TRAC_IK {
   class TRAC_IK
   {
   public:
-    TRAC_IK(const KDL::Chain& _chain, const KDL::JntArray& _q_min, const KDL::JntArray& _q_max, double _maxtime=0.005, double _eps=1e-5, SolveType _type=Speed);
+      TRAC_IK(const KDL::Chain& _chain, const KDL::JntArray& _q_min, const KDL::JntArray& _q_max, const KDL::JntArray& _qerr_wt, double _maxtime=0.005, double _eps=1e-5, SolveType _type=Speed);
 
-    TRAC_IK(const std::string& base_link, const std::string& tip_link, const std::string& URDF_param="/robot_description", double _maxtime=0.005, double _eps=1e-5, SolveType _type=Speed);
+      TRAC_IK(const std::string& base_link, const std::string& tip_link, const KDL::JntArray& _qerr_wt, const std::string& URDF_param="/robot_description", double _maxtime=0.005, double _eps=1e-5, SolveType _type=Speed);
 
     ~TRAC_IK();
 
@@ -62,6 +62,20 @@ namespace TRAC_IK {
       ub_=ub;
       return initialized;
     }
+    
+    // Requires a previous call to CartToJnt()
+    bool getSolutions(std::vector<KDL::JntArray>& solutions_)
+    {
+    solutions_ = solutions;
+    return initialized && !solutions.empty();
+    }
+
+    bool getSolutions(std::vector<KDL::JntArray>& solutions_, std::vector<std::pair<double, uint> >& errors_)
+    {
+    errors_ = errors;
+    return getSolutions(solutions);
+    }
+
 
     bool setKDLLimits(KDL::JntArray& lb_, KDL::JntArray& ub_) {
       lb=lb_;
@@ -71,10 +85,10 @@ namespace TRAC_IK {
       return true;
     }
 
-    static double JointErr(const KDL::JntArray& arr1, const KDL::JntArray& arr2) {
+    static double JointErr(const KDL::JntArray& arr1, const KDL::JntArray& arr2, const KDL::JntArray arr3) {
       double err = 0;
       for (uint i=0; i<arr1.data.size(); i++) {
-        err += pow(arr1(i) - arr2(i),2);
+        err += arr3(i)*pow(arr1(i) - arr2(i),2);
       }
 
       return err;
@@ -89,7 +103,7 @@ namespace TRAC_IK {
   private:
     bool initialized;
     KDL::Chain chain;
-    KDL::JntArray lb, ub;
+    KDL::JntArray lb, ub, qerr_wt;
     boost::scoped_ptr<KDL::ChainJntToJacSolver> jacsolver;
     double eps;
     double maxtime;
