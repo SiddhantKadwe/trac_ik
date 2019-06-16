@@ -17,6 +17,7 @@ set(CMAKE_IGNORE_PATH "/opt/ros/")
 
 find_package(Boost REQUIRED COMPONENTS system thread regex filesystem program_options date_time math_c99 math_c99f math_c99l math_tr1 math_tr1f math_tr1l)
 find_package(PkgConfig REQUIRED)
+find_package(SDFormat REQUIRED)
 pkg_check_modules(pkg_nlopt REQUIRED nlopt)
 pkg_check_modules(Eigen REQUIRED eigen3)
 
@@ -35,6 +36,7 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${pkg_nlopt_INCLUDE_DIRS}
+  ${SDFormat_INCLUDE_DIRS}
 )
 
 rock_library(trac_ik
