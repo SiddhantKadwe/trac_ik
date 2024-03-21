@@ -45,23 +45,23 @@ IK success and average speed (for successful solves) as of TRAC-IK tag v1.4.6.  
 
 **Note on timings**: The timings provided include both successful and unsuccessful runs.  When an IK solution is not found, the numerical IK solver implementations will run for the full timeout requested, searching for an answer; thus for robot chains where KDL fails much of the time (e.g., Jaco-2), the KDL times are skewed towards the user requested timeout value (here 5 ms).  
 
-Chain | DOFs | Orocos' _KDL_ solve rate | Orocos' _KDL_ Avg Time | _KDL-RR_ solve rate | _KDL-RR_ Avg Time | _TRAC-IK_ solve rate | _TRAC-IK_ Avg Time
-- | - | - | - | - | - | - | -
-Atlas 2013 arm | 6 | **75.54%** | 1.35ms | **97.11%** | 0.39ms | **99.96%** | 0.24ms
-Atlas 2015 arm | 7 | **75.67%** | 1.50ms | **93.24%** | 0.81ms | **99.56%** | 0.39ms
-Baxter arm | 7 | **61.07%** | 2.21ms | **89.62%** | 1.02ms | **99.62%** | 0.43ms
-Denso VS-068 | 6 | **27.92%** | 3.68ms | **98.18%** | 0.41ms | **99.81%** | 0.30ms
-Fanuc M-430iA/2F | 5 | **21.07%** | 3.99ms | **88.37%** | 0.91ms | **99.69%** | 0.42ms
-Fetch arm | 7 | **92.46%** | 0.73ms | **93.80%** | 0.72ms | **99.99%** | 0.26ms
-Jaco2 | 6 | **26.23%** | 3.79ms | **97.65%** | 0.58ms | **99.78%** | 0.41ms
-KUKA LBR iiwa 14 R820 | 7 | **37.64%** | 3.38ms | **93.70%** | 0.77ms | **99.84%** | 0.31ms
-KUKA LWR 4+ | 7 | **67.81%** | 1.88ms | **95.35%** | 0.62ms | **99.99%** | 0.27ms
-PR2 arm | 7 | **83.18%** | 1.37ms | **86.87%** | 1.28ms | **99.95%** | 0.38ms
-NASA Robonaut2 'grasping leg' | 7 | **61.04%** | 2.30ms | **87.25%** | 1.13ms | **99.85%** | 0.46ms
-NASA Robonaut2 'leg' + waist + arm | 15 | **97.85%** | 0.84ms | **98.01%** | 0.83ms | **99.83%** | 0.65ms
-NASA Robonaut2 arm | 7 | **86.18%** | 1.04ms | **94.19%** | 0.74ms | **99.76%** | 0.33ms
-NASA Robosimian arm | 7 | **61.69%** | 2.45ms | **99.87%** | 0.36ms | **99.94%** | 0.38ms
-TRACLabs modular arm | 7 | **79.05%** | 1.36ms | **95.06%** | 0.63ms | **99.95%** | 0.33ms
-NASA Valkyrie arm | 7 | **45.14%** | 3.01ms | **89.86%** | 1.31ms | **99.81%** | 0.46ms
+| Chain | DOFs | Orocos' _KDL_ solve rate | Orocos' _KDL_ Avg Time | _KDL-RR_ solve rate | _KDL-RR_ Avg Time | _TRAC-IK_ solve rate | _TRAC-IK_ Avg Time
+| - | - | - | - | - | - | - | -
+| Atlas 2013 arm | 6 | **75.54%** | 1.35ms | **97.11%** | 0.39ms | **99.96%** | 0.24ms
+| Atlas 2015 arm | 7 | **75.67%** | 1.50ms | **93.24%** | 0.81ms | **99.56%** | 0.39ms
+| Baxter arm | 7 | **61.07%** | 2.21ms | **89.62%** | 1.02ms | **99.62%** | 0.43ms
+| Denso VS-068 | 6 | **27.92%** | 3.68ms | **98.18%** | 0.41ms | **99.81%** | 0.30ms
+| Fanuc M-430iA/2F | 5 | **21.07%** | 3.99ms | **88.37%** | 0.91ms | **99.69%** | 0.42ms
+| Fetch arm | 7 | **92.46%** | 0.73ms | **93.80%** | 0.72ms | **99.99%** | 0.26ms
+| Jaco2 | 6 | **26.23%** | 3.79ms | **97.65%** | 0.58ms | **99.78%** | 0.41ms
+| KUKA LBR iiwa 14 R820 | 7 | **37.64%** | 3.38ms | **93.70%** | 0.77ms | **99.84%** | 0.31ms
+| KUKA LWR 4+ | 7 | **67.81%** | 1.88ms | **95.35%** | 0.62ms | **99.99%** | 0.27ms
+| PR2 arm | 7 | **83.18%** | 1.37ms | **86.87%** | 1.28ms | **99.95%** | 0.38ms
+| NASA Robonaut2 'grasping leg' | 7 | **61.04%** | 2.30ms | **87.25%** | 1.13ms | **99.85%** | 0.46ms
+| NASA Robonaut2 'leg' + waist + arm | 15 | **97.85%** | 0.84ms | **98.01%** | 0.83ms | **99.83%** | 0.65ms
+| NASA Robonaut2 arm | 7 | **86.18%** | 1.04ms | **94.19%** | 0.74ms | **99.76%** | 0.33ms
+| NASA Robosimian arm | 7 | **61.69%** | 2.45ms | **99.87%** | 0.36ms | **99.94%** | 0.38ms
+| TRACLabs modular arm | 7 | **79.05%** | 1.36ms | **95.06%** | 0.63ms | **99.95%** | 0.33ms
+| NASA Valkyrie arm | 7 | **45.14%** | 3.01ms | **89.86%** | 1.31ms | **99.81%** | 0.46ms
 
 Feel free to [email Patrick](mailto:pbeeson@traclabs.com) if there is a robot chain that you would like to see added above.
