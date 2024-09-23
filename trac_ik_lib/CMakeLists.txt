@@ -16,7 +16,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDFormat QUIET sdformat)
 pkg_check_modules(SDFormat9 QUIET sdformat9)
 pkg_check_modules(SDFormat12 QUIET sdformat12)
-pkg_check_modules(pkg_nlopt REQUIRED nlopt)
+pkg_check_modules(pkg_nlopt REQUIRED nlopt_cxx)
 pkg_check_modules(Eigen REQUIRED eigen3)
 
 if(SDFormat_FOUND)
