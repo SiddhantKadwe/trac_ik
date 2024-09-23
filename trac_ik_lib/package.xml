@@ -16,4 +16,7 @@
   <maintainer email="pbeeson@traclabs.com">Patrick Beeson</maintainer>
 
   <license>BSD</license>
+  <depend package="boost" />
+  <depend package="nlopt" />
+  <depend package="control/sdformat" />
 </package>

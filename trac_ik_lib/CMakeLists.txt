@@ -7,19 +7,33 @@ project(trac_ik)
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.pc.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
-if(CMAKE_COMPILER_IS_GNUCXX OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
-    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-endif()
-
 
 set(EXCLUDE_DIR "/opt/ros/")
 set(CMAKE_IGNORE_PATH "/opt/ros/")
 
 find_package(Boost REQUIRED COMPONENTS system thread regex filesystem program_options date_time math_c99 math_c99f math_c99l math_tr1 math_tr1f math_tr1l)
 find_package(PkgConfig REQUIRED)
-find_package(SDFormat REQUIRED)
-pkg_check_modules(pkg_nlopt REQUIRED nlopt)
+pkg_check_modules(SDFormat QUIET sdformat)
+pkg_check_modules(SDFormat9 QUIET sdformat9)
+pkg_check_modules(SDFormat12 QUIET sdformat12)
+pkg_check_modules(pkg_nlopt REQUIRED nlopt_cxx)
 pkg_check_modules(Eigen REQUIRED eigen3)
+
+if(SDFormat_FOUND)
+  message(STATUS "Found SDFormat")
+  set(SDFORMAT_PKGDEPEND sdformat)
+  set(SDFORMAT_INCLUDE_DIRS ${SDFormat_INCLUDE_DIRS})
+elseif(SDFormat9_FOUND)
+  message(STATUS "Found SDFormat9")
+  set(SDFORMAT_PKGDEPEND sdformat9)
+  set(SDFORMAT_INCLUDE_DIRS ${SDFormat9_INCLUDE_DIRS})
+elseif(SDFormat12_FOUND)
+  message(STATUS "Found SDFormat12")
+  set(SDFORMAT_PKGDEPEND sdformat12)
+  set(SDFORMAT_INCLUDE_DIRS ${SDFormat12_INCLUDE_DIRS})
+else()
+  message(FATAL_ERROR "Could not find sdformat, sdformat9 or sdformat12 using pkg-config")
+endif()
 
 # TODO: resolve libraries to absolute paths
 
@@ -36,7 +50,7 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${pkg_nlopt_INCLUDE_DIRS}
-  ${SDFormat_INCLUDE_DIRS}
+  ${SDFORMAT_INCLUDE_DIRS}
 )
 
 rock_library(trac_ik
@@ -50,7 +64,7 @@ rock_library(trac_ik
 	        ${Boost_PROGRAM_OPTIONS_LIBRARY}
             ${Boost_THREAD_LIBRARY}
             ${Boost_MULTIPRECISION_LIBRARY}
-    DEPS_PKGCONFIG base-types base-lib eigen3 nlopt sdformat kdl_parser orocos-kdl urdfdom urdfdom_headers)
+    DEPS_PKGCONFIG base-types base-lib eigen3 nlopt_cxx kdl_parser ${SDFORMAT_PKGDEPEND} orocos-kdl urdfdom urdfdom_headers)
 
 install(FILES ${HPP_FILES}
   DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}
