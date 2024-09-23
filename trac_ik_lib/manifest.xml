@@ -5,4 +5,7 @@
     <depend package="base/cmake" />
     <depend package="base/types" />
     <depend package="control/kdl_parser" />
+    <depend package="boost" />
+    <depend package="nlopt" />
+    <depend package="control/sdformat" />
 </package>
