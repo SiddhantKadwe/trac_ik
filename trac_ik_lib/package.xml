@@ -17,4 +17,5 @@
 
   <license>BSD</license>
   <depend package="boost" />
+  <depend package="control/sdformat" />
 </package>
