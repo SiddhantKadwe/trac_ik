@@ -1,0 +1,8 @@
+<package>
+    <description brief="trac_ik_lib">
+    </description>
+    <maintainer></maintainer>
+    <depend package="base/cmake" />
+    <depend package="base/types" />
+    <depend package="control/kdl_parser" />
+</package>
