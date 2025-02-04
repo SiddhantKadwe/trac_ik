@@ -31,7 +31,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <trac_ik/kdl_tl.hpp>
 #include <boost/math/tools/precision.hpp>
 #include <boost/date_time.hpp>
-#include <base-logging/Logging.hpp>
+#include <base-logging/logging/Logging.hpp>
 #include <limits>
 
 namespace KDL
