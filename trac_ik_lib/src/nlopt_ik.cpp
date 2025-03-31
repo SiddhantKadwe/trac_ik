@@ -32,7 +32,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/math/tools/precision.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <base-logging/logging/Logging.hpp>
+#include <base-logging/Logging.hpp>
 #include <limits>
 #include <boost/date_time.hpp>
 #include <trac_ik/dual_quaternion.h>

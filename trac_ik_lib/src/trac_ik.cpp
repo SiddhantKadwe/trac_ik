@@ -34,7 +34,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/date_time.hpp>
 #include <boost/make_shared.hpp>
 #include <Eigen/Geometry>
-#include <base-logging/logging/Logging.hpp>
+#include <base-logging/Logging.hpp>
 #include <limits>
 #include <kdl_parser/kdl_parser.hpp>
 #include <urdf_parser/urdf_parser.h>
