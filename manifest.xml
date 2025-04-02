@@ -1,0 +1,17 @@
+<package>
+    <author>Siddhant Kadwe/siddhant.kadwe@dfki.de</author>
+    <license></license>
+    <url>https://git.hb.dfki.de/SiddhantKadwe/trac_ik.git</url>
+    <logo>http://</logo>
+    <depend package="base/cmake" />
+    <depend package="base/types" />
+    <depend package="base/logging" />
+    <depend package="control/kdl_parser" />
+    <depend package="control/urdfdom" />
+    <depend package="control/urdfdom_headers" />
+    <depend package="nlopt"/>
+    <name>TRAC_IK</name>
+    <stage>0</stage>
+    <activity>active</activity>
+    <use>single project</use>
+</package>
