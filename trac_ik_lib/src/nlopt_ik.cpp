@@ -30,7 +30,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <trac_ik/nlopt_ik.hpp>
 #include <boost/math/tools/precision.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/function.hpp>
 #include <base-logging/Logging.hpp>
 #include <limits>
@@ -38,7 +38,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <trac_ik/dual_quaternion.h>
 #include <cmath>
 
-
+using namespace boost::placeholders;
 
 namespace NLOPT_IK {
 
